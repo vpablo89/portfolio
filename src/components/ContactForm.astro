@@ -1,0 +1,51 @@
+---
+
+---
+
+<div class="flex flex-col gap-y-16">
+  <form
+    name="contact"
+    method="POST"
+    class="flex flex-col space-x-0  gap-y-4 space-y-8 group md:flex-col md:space-x-0 md:space-y-0 "
+    data-netlify="true"
+    data-netlify-honeypot="bot-field"
+    action="/thanks"
+  >
+    <div class="w-full md:w-1/2 flex flex-col gap-y-4">
+      <label for="name" class="text-left">Nombre</label>
+      <input type="text" name="name" id="name" required class="text-black" />
+    </div>
+    <div class="w-full md:w-1/2 flex flex-col gap-y-4">
+      <label for="name" class="text-left">Apellido</label>
+      <input
+        type="text"
+        name="lastName"
+        id="lastName"
+        required
+        class="text-black"
+      />
+    </div>
+    <div class="w-full md:w-1/2 flex flex-col gap-y-4">
+      <label for="name" class="text-left">Email</label>
+      <input type="email" name="email" id="email" required class="text-black" />
+    </div>
+    <div class="w-full md:w-1/2 flex flex-col gap-y-4">
+      <label for="name" class="text-left">Ingrese su mensaje</label>
+      <textarea
+        maxlength="150"
+        name="contactBody"
+        id="contactBody"
+        required
+        class="text-black h-48"
+      />
+    </div>
+    <div class="w-full flex flex-row gap-x-10 mx-auto">
+      <button class="bg-red-700 rounded-xl px-4">
+        Borrar campos
+      </button>
+        <button class="bg-green-700 rounded-xl px-4">
+          Enviar
+        </button>
+    </div>
+  </form>
+</div>
