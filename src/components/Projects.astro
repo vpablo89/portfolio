@@ -2,6 +2,7 @@
 import GitHub from "./icons/GitHub.astro";
 import Express from "./icons/Express.astro";
 import Typescript from "./icons/Typescript.astro";
+import Java from "./icons/Java.astro";
 // import Link from "./icons/Link.astro";
 
 import LinkButton from "./LinkButton.astro";
@@ -16,6 +17,11 @@ const TAGS = {
     name: "Typescript",
     class: "bg-black text-white",
     icon: Typescript,
+  },
+  JAVA: {
+    name: "Java",
+    class: "bg-white text-red-500 text-bold",
+    icon: Java,
   },
 };
 const PROJECTS = [
@@ -35,7 +41,7 @@ const PROJECTS = [
     link: "https://adventjs.dev",
     github: "https://github.com/vpablo89/todoappbackend",
     image: "/projects/todoapp.jpg",
-    tags: [TAGS.TYPESCRIPT, TAGS.EXPRESS],
+    tags: [TAGS.JAVA, TAGS.EXPRESS],
   },
 ];
 ---
