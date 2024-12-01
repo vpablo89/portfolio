@@ -3,6 +3,7 @@ import GitHub from "./icons/GitHub.astro";
 import Express from "./icons/Express.astro";
 import Typescript from "./icons/Typescript.astro";
 import Java from "./icons/Java.astro";
+import MySQL from "./icons/MySQL.astro";
 // import Link from "./icons/Link.astro";
 
 import LinkButton from "./LinkButton.astro";
@@ -20,8 +21,13 @@ const TAGS = {
   },
   JAVA: {
     name: "Java",
-    class: "bg-white text-red-500 text-bold",
+    class: "bg-slate-200 text-red-500 text-bold",
     icon: Java,
+  },
+  MYSQL: {
+    name: "MySQL",
+    class: "bg-slate-200 text-blue-500 text-bold",
+    icon: MySQL,
   },
 };
 const PROJECTS = [
@@ -41,7 +47,7 @@ const PROJECTS = [
     link: "https://adventjs.dev",
     github: "https://github.com/vpablo89/todoappbackend",
     image: "/projects/todoapp.jpg",
-    tags: [TAGS.JAVA, TAGS.EXPRESS],
+    tags: [TAGS.JAVA, TAGS.MYSQL],
   },
 ];
 ---
