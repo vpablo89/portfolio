@@ -1,0 +1,25 @@
+---
+const stackGroups = [
+  { title: "Frontend", items: ["Astro", "React", "Next.js", "TypeScript"] },
+  { title: "Backend", items: ["Node.js", "Express", "Java", "Spring Boot"] },
+  { title: "Base de datos", items: ["PostgreSQL", "Firebase", "MongoDB"] },
+  { title: "Testing", items: ["Jest", "Supertest", "React Testing Library", "JUnit", "MockMvc"] },
+]
+---
+
+<div class="grid gap-4 md:grid-cols-2">
+  {
+    stackGroups.map((group) => (
+      <article class="p-5 border rounded-2xl border-slate-200 bg-white/80 dark:border-slate-800 dark:bg-slate-900/60">
+        <h3 class="text-base font-semibold text-slate-900 dark:text-slate-100">{group.title}</h3>
+        <ul class="flex flex-wrap gap-2 mt-4">
+          {group.items.map((item) => (
+            <li class="px-3 py-1 text-sm rounded-full bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+              {item}
+            </li>
+          ))}
+        </ul>
+      </article>
+    ))
+  }
+</div>

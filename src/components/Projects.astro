@@ -1,109 +1,200 @@
 ---
-import GitHub from "./icons/GitHub.astro";
-import Express from "./icons/Express.astro";
-import Typescript from "./icons/Typescript.astro";
-import Java from "./icons/Java.astro";
-import Sql from "./icons/Sql.astro";
+import type { PortfolioProject } from "@/types/project";
 
-import LinkButton from "./LinkButton.astro";
+interface Props {
+  projects: PortfolioProject[];
+}
 
-const TAGS = {
-  TYPESCRIPT: {
-    name: "Express",
-    class: "bg-white text-black",
-    icon: Express,
-  },
-  EXPRESS: {
-    name: "Typescript",
-    class: "bg-black text-white",
-    icon: Typescript,
-  },
-  JAVA: {
-    name: "Java",
-    class: "bg-slate-200 text-red-500 text-bold",
-    icon: Java,
-  },
-  MYSQL: {
-    name: "MySQL",
-    class: "bg-slate-200 text-blue-500 text-bold",
-    icon: Sql,
-  },
-};
-const PROJECTS = [
-  {
-    title: "Ecommerce Typescript",
-    description:
-      "API RESTful de un ecommerce, con manejo de usuarios, roles y permisos, CRUD de productos, inicio de sesión, carrito de compras, pasarela de pago , notificaciones por email y testing ",
-    link: "https://svgl.vercel.app/",
-    github: "https://github.com/vpablo89/ecommerce-typescript",
-    image: "/projects/ecommerce.jpg",
-    tags: [TAGS.TYPESCRIPT, TAGS.EXPRESS],
-  },
-  {
-    title: "ToDo App",
-    description:
-      "Aplicación web que permite añadir tareas, marcarlas como completadas y eliminarlas. Las tareas se almacenan en el LocalStorage del navegador.",
-    link: "https://adventjs.dev",
-    github: "https://github.com/vpablo89/todoappbackend",
-    image: "/projects/todoapp.jpg",
-    tags: [TAGS.JAVA, TAGS.MYSQL],
-  },
+const { projects } = Astro.props;
+
+const preferredUrls = [
+  "https://github.com/vpablo89/padel-manager",
+  "https://github.com/vpablo89/bookingsystem",
+  "https://github.com/vpablo89/tournament-manager",
 ];
+
+const preferredIndex = (url: string) => preferredUrls.indexOf(url);
+
+const originalIndex = new Map(
+  projects.map((project, index) => [project.githubUrl, index]),
+);
+
+const orderedProjects = projects.slice().sort((a, b) => {
+  const pa = preferredIndex(a.githubUrl);
+  const pb = preferredIndex(b.githubUrl);
+
+  if (pa !== -1 || pb !== -1) {
+    if (pa === -1) return 1;
+    if (pb === -1) return -1;
+    return pa - pb;
+  }
+
+  return (
+    (originalIndex.get(a.githubUrl) ?? 0) -
+    (originalIndex.get(b.githubUrl) ?? 0)
+  );
+});
 ---
 
-<div class="flex flex-col gap-y-16">
-  {
-    PROJECTS.map(({ image, title, description, tags, github }) => (
-      <article class="flex flex-col space-x-0 space-y-8 group md:flex-row md:space-x-8 md:space-y-0">
-        <div class="w-full md:w-1/2">
-          <div class="relative flex flex-col items-center col-span-6 row-span-5 gap-8 transition duration-500 ease-in-out transform shadow-xl overflow-clip rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-2xl lg:border lg:border-gray-800 lg:hover:border-gray-700 lg:hover:bg-gray-800/50">
-            <img
-              alt="Imagen del editor + postman"
-              class="object-cover object-top w-full h-60 transition duration-500 sm:h-50 md:scale-110 md:group-hover:scale-105"
-              loading="lazy"
-              src={image}
-            />
-          </div>
-        </div>
+<div id="projects-carousel" class="relative">
+  <div class="flex items-center justify-between mb-4">
+    <p class="text-sm text-slate-500 dark:text-slate-400">
+      Desliza para ver mas proyectos
+    </p>
+    <div class="flex gap-2">
+      <button
+        type="button"
+        data-prev
+        class="hidden px-3 py-2 text-sm font-semibold transition border rounded-xl sm:inline-flex border-slate-300 text-slate-800 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+        aria-label="Proyecto anterior"
+      >
+        Anterior
+      </button>
+      <button
+        type="button"
+        data-next
+        class="hidden px-3 py-2 text-sm font-semibold transition border rounded-xl sm:inline-flex border-slate-300 text-slate-800 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+        aria-label="Siguiente proyecto"
+      >
+        Siguiente
+      </button>
+    </div>
+  </div>
 
-        <div class="w-full md:w-1/2 md:max-w-lg">
-          <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
-            {title}
+  <div
+    data-scroller
+    class="flex gap-4 overflow-x-auto scroll-smooth pb-2 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
+  >
+    {
+      orderedProjects.map((project) => (
+        <article
+          data-slide
+          class="snap-start w-full shrink-0 p-6 border rounded-2xl border-slate-200 bg-white/80 dark:border-slate-800 dark:bg-slate-900/60 sm:w-[48%] lg:w-[33.3333%]"
+        >
+          <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100">
+            {project.name}
           </h3>
-          <div class="flex flex-wrap mt-2">
-            <ul class="flex flex-row mb-2 gap-x-2">
-              {tags.map((tag) => (
-                <li>
-                  <span
-                    class={`flex gap-x-2 rounded-full text-xs ${tag.class} py-1 px-2 `}
-                  >
-                    <tag.icon class="size-4" />
-                    {tag.name}
-                  </span>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">
+            {project.description}
+          </p>
+
+          <div class="mt-4">
+            <p class="text-xs font-semibold tracking-wide uppercase text-slate-500 dark:text-slate-400">
+              Problema que resuelve
+            </p>
+            <p class="mt-1 text-sm text-slate-700 dark:text-slate-300">
+              {project.problem}
+            </p>
+          </div>
+
+          <div class="mt-4">
+            <p class="text-xs font-semibold tracking-wide uppercase text-slate-500 dark:text-slate-400">
+              Stack
+            </p>
+            <ul class="flex flex-wrap gap-2 mt-2">
+              {project.stack.map((tech) => (
+                <li class="px-2.5 py-1 text-xs rounded-full bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                  {tech}
                 </li>
               ))}
             </ul>
-
-            <div class="mt-2 text-gray-700 dark:text-gray-400">
-              {description}
-            </div>
-            <footer class="flex items-end justify-start mt-4 gap-x-4">
-              {github && (
-                <LinkButton href={github}>
-                  <GitHub class="size-6" />
-                  Code
-                </LinkButton>
-              )}
-              {/* {link && (
-                <LinkButton href={link}>
-                  <Link class="size-4" />
-                  Preview
-                </LinkButton>
-              )} */}
-            </footer>
           </div>
-        </div>
-      </article>
-    ))
-  }
+
+          <footer class="flex flex-wrap gap-3 mt-5">
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="px-4 py-2 text-sm font-semibold transition border rounded-xl border-slate-300 text-slate-800 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+            >
+              GitHub
+            </a>
+            {project.demoUrl && (
+              <a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="px-4 py-2 text-sm font-semibold transition border rounded-xl border-slate-300 text-slate-800 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+              >
+                Demo
+              </a>
+            )}
+            {project.docsUrl && (
+              <a
+                href={project.docsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="px-4 py-2 text-sm font-semibold transition border rounded-xl border-slate-300 text-slate-800 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+              >
+                Postman Docs
+              </a>
+            )}
+          </footer>
+        </article>
+      ))
+    }
+  </div>
+
+  <script>
+    (() => {
+      const root = document.getElementById("projects-carousel");
+      if (!root) return;
+
+      const scroller = root.querySelector("[data-scroller]");
+      const slides = Array.from(root.querySelectorAll("[data-slide]"));
+      const prevBtn = root.querySelector(
+        "[data-prev]",
+      ) as HTMLButtonElement | null;
+      const nextBtn = root.querySelector(
+        "[data-next]",
+      ) as HTMLButtonElement | null;
+
+      if (!scroller || slides.length <= 1) return;
+
+      let index = 0;
+
+      const syncButtons = () => {
+        if (prevBtn) prevBtn.disabled = index === 0;
+        if (nextBtn) nextBtn.disabled = index === slides.length - 1;
+      };
+
+      const scrollToIndex = (nextIndex: number) => {
+        index = Math.max(0, Math.min(slides.length - 1, nextIndex));
+        slides[index].scrollIntoView({
+          behavior: "smooth",
+          inline: "start",
+          block: "nearest",
+        });
+        syncButtons();
+      };
+
+      prevBtn?.addEventListener("click", () => scrollToIndex(index - 1));
+      nextBtn?.addEventListener("click", () => scrollToIndex(index + 1));
+
+      // Ajusta el índice cuando el usuario hace scroll manual.
+      const onScroll = () => {
+        const scrollerRect = scroller.getBoundingClientRect();
+        const left = scrollerRect.left + 4;
+        let best = 0;
+        let bestDist = Number.POSITIVE_INFINITY;
+
+        for (let i = 0; i < slides.length; i++) {
+          const rect = slides[i].getBoundingClientRect();
+          const dist = Math.abs(rect.left - left);
+          if (dist < bestDist) {
+            bestDist = dist;
+            best = i;
+          }
+        }
+
+        if (best !== index) {
+          index = best;
+          syncButtons();
+        }
+      };
+
+      scroller.addEventListener("scroll", onScroll, { passive: true });
+      syncButtons();
+    })();
+  </script>
 </div>

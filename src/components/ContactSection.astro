@@ -1,0 +1,40 @@
+---
+interface Props {
+  email: string
+  linkedinUrl: string
+  githubUrl: string
+}
+
+const { email, linkedinUrl, githubUrl } = Astro.props
+---
+
+<div class="grid gap-4 md:grid-cols-3">
+  <a
+    href={`mailto:${email}`}
+    class="p-5 border rounded-2xl border-slate-200 bg-white/80 dark:border-slate-800 dark:bg-slate-900/60"
+  >
+    <p class="text-sm text-slate-500 dark:text-slate-400">Email</p>
+    <p class="mt-1 text-sm font-medium text-slate-900 dark:text-slate-100">
+      Contactar por email
+      <span class="sr-only">{email}</span>
+    </p>
+  </a>
+  <a
+    href={linkedinUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="p-5 border rounded-2xl border-slate-200 bg-white/80 dark:border-slate-800 dark:bg-slate-900/60"
+  >
+    <p class="text-sm text-slate-500 dark:text-slate-400">LinkedIn</p>
+    <p class="mt-1 font-medium text-slate-900 dark:text-slate-100">linkedin.com/in/verapablodw</p>
+  </a>
+  <a
+    href={githubUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="p-5 border rounded-2xl border-slate-200 bg-white/80 dark:border-slate-800 dark:bg-slate-900/60"
+  >
+    <p class="text-sm text-slate-500 dark:text-slate-400">GitHub</p>
+    <p class="mt-1 font-medium text-slate-900 dark:text-slate-100">github.com/vpablo89</p>
+  </a>
+</div>

@@ -1,54 +1,69 @@
 ---
 import Layout from "@/layouts/Layout.astro"
-
 import AboutMe from "@/components/AboutMe.astro"
-import CodeIcon from "@/components/icons/Code.astro"
-import ProfileCheck from "@/components/icons/ProfileCheck.astro"
 import Projects from "@/components/Projects.astro"
 import SectionContainer from "@/components/SectionContainer.astro"
 import Hero from "@/components/Hero.astro"
+import StackSection from "@/components/StackSection.astro"
+import TransferableExperience from "@/components/TransferableExperience.astro"
+import TestingSection from "@/components/TestingSection.astro"
+import GitHubSection from "@/components/GitHubSection.astro"
+import ContactSection from "@/components/ContactSection.astro"
+import FinalCta from "@/components/FinalCta.astro"
+import { getPortfolioProjects } from "@/lib/github"
+
+const projects = await getPortfolioProjects()
+const profileUrl = "https://github.com/vpablo89"
+const linkedinUrl = "https://www.linkedin.com/in/verapablodw/"
+const email = "verapablodaniel.1989@gmail.com"
 ---
 
 <Layout
-  title="Porfolio de Pablo Vera - Desarrollador de software backend"
-  description="Contratame  para convertir tu idea en software ."
+  title="Portfolio de Pablo Vera - Backend / Fullstack Developer"
+  description="Backend developer especializado en APIs REST, SQL y buenas practicas de testing."
 >
-  <main class="px-4">
-    <SectionContainer class="py-16 md:pb-16 ">
-      <Hero>
-      </slot>
-    </Hero>
+  <main class="px-4 pt-16">
+    <SectionContainer class="py-12 md:py-20">
+      <Hero />
     </SectionContainer>
+
     <SectionContainer id="sobre-mi">
-      <h2
-        class="flex items-center mb-6 text-3xl font-semibold gap-x-8 text-black/80 dark:text-white"
-      >
-        <ProfileCheck class="size-8" />
-        Sobre mí
-      </h2>
+      <h2 class="mb-4 text-2xl font-semibold md:text-3xl text-slate-900 dark:text-white">Sobre mi</h2>
       <AboutMe />
     </SectionContainer>
-    <div class="space-y-24">
-    <!-- <SectionContainer id="experiencia">
-      <h2
-        class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
-      >
-        <Briefcase class="size-8" />
-        Experiencia laboral
-      </h2> 
-      <h2>PROXIMAMENTE</h2>
-      <!-- <Experience /> -->
-    </SectionContainer> 
+
+    <SectionContainer id="stack">
+      <h2 class="mb-4 text-2xl font-semibold md:text-3xl text-slate-900 dark:text-white">Stack tecnico</h2>
+      <StackSection />
+    </SectionContainer>
+
+    <SectionContainer id="experiencia">
+      <h2 class="mb-4 text-2xl font-semibold md:text-3xl text-slate-900 dark:text-white">Experiencia transferible</h2>
+      <TransferableExperience />
+    </SectionContainer>
+
+    <SectionContainer id="testing">
+      <h2 class="mb-4 text-2xl font-semibold md:text-3xl text-slate-900 dark:text-white">Testing y buenas practicas</h2>
+      <TestingSection />
+    </SectionContainer>
 
     <SectionContainer id="proyectos">
-      <h2
-        class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
-      >
-        <CodeIcon class="size-7 text-center" />
-        Proyectos
-      </h2>
-      <Projects />
-    </SectionContainer>    
-  </div>
+      <h2 class="mb-4 text-2xl font-semibold md:text-3xl text-slate-900 dark:text-white">Proyectos destacados</h2>
+      <Projects projects={projects} />
+    </SectionContainer>
+
+    <SectionContainer id="github">
+      <h2 class="mb-4 text-2xl font-semibold md:text-3xl text-slate-900 dark:text-white">GitHub</h2>
+      <GitHubSection profileUrl={profileUrl} username="vpablo89" />
+    </SectionContainer>
+
+    <SectionContainer id="contacto">
+      <h2 class="mb-4 text-2xl font-semibold md:text-3xl text-slate-900 dark:text-white">Contacto</h2>
+      <ContactSection email={email} linkedinUrl={linkedinUrl} githubUrl={profileUrl} />
+    </SectionContainer>
+
+    <SectionContainer>
+      <FinalCta />
+    </SectionContainer>
   </main>
 </Layout>
